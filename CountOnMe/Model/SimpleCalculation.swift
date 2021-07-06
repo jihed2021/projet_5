@@ -12,31 +12,32 @@ enum OperationType {
     case addition, substraction, multiplication, division
 }
 enum CalculationError: Error , LocalizedError {
-    case divisionByZero, alertExpression
+    case divisionByZero, alertExpressionOperator, alertExpression
     public var errorDescription: String? {
         switch self {
         case .divisionByZero:
             return "impossible calcultation"
+        case .alertExpressionOperator:
+            return "an operator is already set !"
         case .alertExpression:
-            return "a operator is already set !"
+            return "Error"
         }
     }
 }
 //    MARK: - Protcol
-protocol SimpleCalculationDelegate {
-    func didResult(operation: String)
-    func alert(error: CalculationError)
-}
+//protocol SimpleCalculationDelegate {
+//    func didResult(operation: String)
+//    func alert(error: CalculationError)
+//}
 
 class SimpleCalculation {
     //    MARK: - property
-    var delegate: SimpleCalculationDelegate?
-    
+    var calcultationDelegate: SimpleCalculationDelegate?
     var operationType: OperationType!
     var text: String = ""
     {
         didSet {
-            delegate?.didResult(operation: text)
+            calcultationDelegate?.didResult(operation: text)
         }
     }
     var result: Float!
@@ -100,11 +101,11 @@ class SimpleCalculation {
         if canAddOperator {
             text.append(" \(operatorForCalculation) ")
         } else {
-            delegate?.alert(error: .alertExpression)
+            calcultationDelegate?.alert(error: .alertExpressionOperator)
         }
     }
     
-    func addresult() {
+    func addResult() {
         if expressionIsCorrect && expressionHaveEnoughElement {
             var operationsToReduce = elements!
             
@@ -142,15 +143,15 @@ class SimpleCalculation {
                 guard let calculationError = error as? CalculationError else {
                     return
                 }
-                delegate?.alert(error: calculationError)
+                calcultationDelegate?.alert(error: calculationError)
                 deletelastNumber()
                 return
             }
-            text = text + " = \(operationsToReduce.first ?? "")"
-            delegate?.didResult(operation: text)
+            text = operationsToReduce.first ?? ""
+            calcultationDelegate?.didResult(operation: text)
             
         } else  {
-            delegate?.alert(error: .alertExpression)
+            calcultationDelegate?.alert(error: .alertExpression)
         }
     }
     func resetAll() {

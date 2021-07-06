@@ -11,7 +11,6 @@ import UIKit
 class ViewController: UIViewController {
     
     //    MARK: - Property
-    var delegate: SimpleCalculationDelegate!
     var mycalculation = SimpleCalculation()
     //    MARK: - Outkets
     @IBOutlet weak var textView: UITextView!
@@ -19,7 +18,7 @@ class ViewController: UIViewController {
     // View Life cycles
     override func viewDidLoad() {
         mycalculation.resetAll()
-        mycalculation.delegate = self
+        mycalculation.calcultationDelegate = self
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
@@ -47,18 +46,18 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        mycalculation.addresult()
+        mycalculation.addResult()
     }
 }
-  //    MARK: - Extension
-extension ViewController: SimpleCalculationDelegate {
+//    MARK: - Extension
+extension ViewController: SimpleCalculationDelegate{
+    
+    func didResult(operation: String) {
+        textView.text = operation
+    }
     func alert(error: CalculationError) {
         let alertVC = UIAlertController(title: "‼️", message: error.errorDescription, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
-    }
-    
-    func didResult(operation: String) {
-        textView.text = operation
     }
 }
