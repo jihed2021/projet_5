@@ -11,45 +11,73 @@ import XCTest
 @testable import CountOnMe
 class CountOnMeTests: XCTestCase {
     var myCalc: SimpleCalculation!
+    var mockDelegate: MockCalcultationDelegate {
+        return myCalc.calcultationDelegate as! MockCalcultationDelegate
+    }
     override func setUp() {
         super.setUp()
         myCalc = SimpleCalculation()
+        myCalc.calcultationDelegate = MockCalcultationDelegate()
     }
     
     func testCanAddNumber_WhenExpressionHaveresult_ThenResultIsText() {
         myCalc.add(number: "10")
-        XCTAssertEqual(myCalc.text,"10")
-    }
-    func testCanAddOperator_WhenExpressionHaveresult_ThenResultIsText() {
-        myCalc.text = "10"
-        myCalc.add(operatorForCalculation: "-")
-        XCTAssertEqual(myCalc.text,"10 - ")
-    }
-    
-    func testGivenNumbers10to10_Whencalculationtypeaddistion_ThenresultIs20() {
-        myCalc.text = "10 + 10"
-        myCalc.addresult()
-        XCTAssertEqual(myCalc.result, 20.0)
-    }
-    func testGivenNumbers10to10_WhencalculationtypeDivision_ThenresultIs20() {
-        myCalc.text = "10 ÷ 10"
-        myCalc.addresult()
-        XCTAssertEqual(myCalc.result, 1.0)
-    }
-    
-    func testGivenNumbers10to0_WhencalculationtypeDivision_ThenresultIs20() {
-        myCalc.text = "10 ÷ 0"
-        do {
-            try myCalc.addresult()
-        } catch {
-            XCTAssertEqual(error.localizedDescription, "impossible calcultation")
-        }
+        
+        XCTAssertEqual(mockDelegate.expectedCalculation ,myCalc.text)
     }
     
     func testGivenNumbers10to10_WhencalculationtypeSoustraction_ThenresultIs20() {
         myCalc.text = "10 - 10"
-        myCalc.addresult()
+        myCalc.addResult()
         XCTAssertEqual(myCalc.result, 0)
+    }
+    
+    func testCanAddOperator_WhenExpressionHaveresult_ThenResultIsText() {
+        myCalc.text = "10 - "
+        myCalc.add(operatorForCalculation: "+")
+        XCTAssertEqual(mockDelegate.errorCalculation.localizedDescription, "an operator is already set !")
+    }
+    
+    func testGivenNumbers10to10_Whencalculationtypeaddistion_ThenresultIs20() {
+        myCalc.text = "10"
+        myCalc.add(operatorForCalculation: "+")
+        myCalc.add(number: "10")
+        myCalc.addResult()
+        XCTAssertEqual(mockDelegate.expectedCalculation, "20")
+    }
+    func testGivenNumbers10to10_WhencalculationtypeDivision_ThenresultIs20() {
+        myCalc.text = "10 ÷ 10"
+        myCalc.addResult()
+        XCTAssertEqual(mockDelegate.expectedCalculation, "1")
+    }
+    
+    func testGivenNumbers10to0_WhencalculationtypeDivision_ThenresultIs20() {
+        myCalc.text = "10 ÷ 0"
+        myCalc.addResult()
+        XCTAssertEqual(mockDelegate.errorCalculation.errorDescription, "impossible calcultation")
+    }
+    func testGivenNumbers_Whencalculation_ThenresultwithPriorityMultiplication() {
+        myCalc.text = "1 + 2 x 3 + 4 x 2"
+        myCalc.addResult()
+        XCTAssertEqual(mockDelegate.expectedCalculation, "15")
+    }
+    func testGivenNumbers_Whencalculation_ThenresultwithPriorityDivision() {
+        myCalc.text = "1 + 4 ÷ 2 + 4 ÷ 2"
+        myCalc.addResult()
+        XCTAssertEqual(mockDelegate.expectedCalculation, "5")
+        
+    }
+    
+    func testGivenNumbersMixedPriorOperandStartingWithDivision_Whencalculation_ThenresultwithPriority() {
+        myCalc.text = "1 ÷ 4 × 4"
+        myCalc.addResult()
+        XCTAssertEqual(mockDelegate.expectedCalculation, "1")
+    }
+    
+    func testGivenNumbersMixedPriorOperandStartingWithMultiplication_Whencalculation_ThenresultwithPriority() {
+        myCalc.text = "1 × 4 ÷ 4"
+        myCalc.addResult()
+        XCTAssertEqual(mockDelegate.expectedCalculation, "1")
     }
     
     func test_expression_is_Correct() {
@@ -57,7 +85,7 @@ class CountOnMeTests: XCTestCase {
         XCTAssertFalse(myCalc.expressionIsCorrect)
     }
     
-    func test_expression_have_Enought_Element() {
+    func test_expression_have_Enought_Element() throws {
         myCalc.text = "10 + "
         XCTAssertFalse(myCalc.expressionHaveEnoughElement)
     }
@@ -72,27 +100,6 @@ class CountOnMeTests: XCTestCase {
         XCTAssertFalse(myCalc.expressionHaveResult)
     }
     
-    func testError_WhendevisionByZero_ThenresultError() throws {
-        
-        let expectedError = CalculationError.divisionByZero
-        var error: CalculationError?
-        myCalc.text = "10 ÷ "
-        XCTAssertThrowsError(try myCalc.add(number: "0")) {
-            throwError in error = throwError as? CalculationError
-        }
-        XCTAssertEqual(expectedError, error)
-    }
-    func testError_WhenAddTwoOperator_ThenresultError() throws {
-        
-        let expectedError = CalculationError.alertExpression
-        var error: CalculationError!
-        myCalc.text = "10 + "
-        
-        XCTAssertThrowsError(try? myCalc.add(operatorForCalculation: "-")) {
-            throwError in error = throwError as? CalculationError
-        }
-        XCTAssertEqual(expectedError, error)
-    }
     func test_reset_All() {
         myCalc.text = "10 + 10"
         myCalc.resetAll()

@@ -14,6 +14,8 @@
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
 		C839927A2666799F003398B3 /* SimpleCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83992792666799F003398B3 /* SimpleCalculation.swift */; };
 		C83992842668C151003398B3 /* CountOnMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83992832668C151003398B3 /* CountOnMeTests.swift */; };
+		C8FF475B2692E570009C9A30 /* MockCalcultationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FF475A2692E570009C9A30 /* MockCalcultationDelegate.swift */; };
+		C8FF475D26930543009C9A30 /* CalculationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FF475C26930543009C9A30 /* CalculationDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		C83992812668C151003398B3 /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C83992832668C151003398B3 /* CountOnMeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountOnMeTests.swift; sourceTree = "<group>"; };
 		C83992852668C151003398B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8FF475A2692E570009C9A30 /* MockCalcultationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCalcultationDelegate.swift; sourceTree = "<group>"; };
+		C8FF475C26930543009C9A30 /* CalculationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				C83992792666799F003398B3 /* SimpleCalculation.swift */,
+				C8FF475C26930543009C9A30 /* CalculationDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -125,6 +130,7 @@
 		C83992822668C151003398B3 /* CountOnMeTests */ = {
 			isa = PBXGroup;
 			children = (
+				C8FF475A2692E570009C9A30 /* MockCalcultationDelegate.swift */,
 				C83992832668C151003398B3 /* CountOnMeTests.swift */,
 				C83992852668C151003398B3 /* Info.plist */,
 			);
@@ -234,6 +240,7 @@
 			files = (
 				C839927A2666799F003398B3 /* SimpleCalculation.swift in Sources */,
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
+				C8FF475D26930543009C9A30 /* CalculationDelegate.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -243,6 +250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C83992842668C151003398B3 /* CountOnMeTests.swift in Sources */,
+				C8FF475B2692E570009C9A30 /* MockCalcultationDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

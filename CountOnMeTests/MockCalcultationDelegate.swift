@@ -8,7 +8,7 @@
 
 import Foundation
 @testable import CountOnMe
-class CalcultationDelegate: SimpleCalculationDelegate {
+class MockCalcultationDelegate: SimpleCalculationDelegate {
     
     var expectedCalculation: String = "0"
     var errorCalculation: CalculationError = .alertExpression
